@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { UploadCloud, ImageIcon } from 'lucide-react'
+import { UploadCloud } from 'lucide-react'
 import { useI18n } from './i18n.jsx'
 
 // zone d'upload partagée: drag / clic / coller. onLoad(image, src, name)
@@ -71,11 +71,19 @@ export default function Drop({ img, imgName, onLoad }) {
       onDrop={(e) => { e.preventDefault(); setOver(false); loadFile(e.dataTransfer.files[0]) }}
       role="button" tabIndex={0}
     >
-      <div className="dz-icon">{img ? <ImageIcon size={28} /> : <UploadCloud size={28} />}</div>
-      <div className="dz-title">
-        {img ? `${imgName} — ${img.naturalWidth}×${img.naturalHeight}px` : t('drop.title')}
-      </div>
-      <div className="dz-sub">{img ? t('drop.change') : t('drop.hint')}</div>
+      {img ? (
+        <>
+          <div className="dz-preview"><img src={img.src} alt={imgName} /></div>
+          <div className="dz-title" style={{ marginTop: 14 }}>{imgName} — {img.naturalWidth}×{img.naturalHeight}px</div>
+          <div className="dz-sub">{t('drop.change')}</div>
+        </>
+      ) : (
+        <>
+          <div className="dz-icon"><UploadCloud size={28} /></div>
+          <div className="dz-title">{t('drop.title')}</div>
+          <div className="dz-sub">{t('drop.hint')}</div>
+        </>
+      )}
       <input ref={fileRef} className="dz-input" type="file" accept="image/*"
              onChange={(e) => loadFile(e.target.files[0])} />
     </div>

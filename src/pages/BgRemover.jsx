@@ -87,7 +87,7 @@ export default function BgRemover() {
 
   return (
     <div className="container page">
-      <Link to="/" className="back-link"><ArrowLeft size={15} /> {t('back').replace('← ', '')}</Link>
+      <Link to="/tools" className="back-link"><ArrowLeft size={15} /> {t('back.tools')}</Link>
 
       <div className="page-head reveal" style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
         <span className="tool-badge"><Scissors size={26} /></span>

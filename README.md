@@ -45,8 +45,9 @@ Repo : https://github.com/SimplementJohn/OpenSlides-Manager
 - [lucide-react](https://lucide.dev/) (icônes)
 - [jszip](https://stuk.github.io/jszip/) + [file-saver](https://github.com/eligrey/FileSaver.js) (export ZIP)
 - [@imgly/background-removal](https://github.com/imgly/background-removal-js) (détourage local, ONNX/WASM)
+- **Backend** : [Express](https://expressjs.com/), [bcryptjs](https://github.com/dcodeIO/bcrypt.js), [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken), helmet, cors, cookie-parser, express-rate-limit, dotenv
 
-Tout le traitement image se fait côté client (Canvas API). Aucun upload serveur.
+Le traitement image se fait côté client (Canvas API). Le backend ne sert que l'authentification locale (comptes utilisateurs) — aucun upload d'image serveur.
 
 ## Démarrage
 
@@ -56,16 +57,27 @@ Prérequis : [Node.js](https://nodejs.org/) 18+.
 git clone https://github.com/SimplementJohn/OpenSlides-Manager.git
 cd OpenSlides-Manager
 npm install
-npm run dev
+cp .env.example .env   # renseigne JWT_SECRET
+npm run dev:all        # frontend (5173) + API (4000)
 ```
 
 Ouvre http://localhost:5173
+
+Pour générer un secret : `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
+
+## Authentification
+
+Auth locale sécurisée : inscription / connexion / déconnexion, mots de passe hashés (bcrypt),
+session via **cookie httpOnly JWT**, route protégée `/account`, rate limiting anti brute-force.
+Voir la liste des routes API et les règles de sécurité dans [CLAUDE.md](CLAUDE.md).
 
 ## Scripts
 
 | Commande | Effet |
 |----------|-------|
-| `npm run dev` | Serveur de dev avec HMR |
+| `npm run dev:all` | Frontend + API ensemble |
+| `npm run dev` | Frontend seul (HMR) |
+| `npm run server:dev` | API seule (nodemon) |
 | `npm run build` | Build de production dans `dist/` |
 | `npm run preview` | Sert le build de prod localement |
 

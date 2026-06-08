@@ -1,49 +1,136 @@
 # CLAUDE.md
 
-Guidance for Claude Code (and other AI agents) working in this repo.
+Guidance for Claude Code (and other AI agents) working in this repo. **Keep this file updated after every important change.**
 
-## Project
+## Résumé du projet
 
-OpenSlides Manager — client-side web toolbox for presentations and images. Light theme, remove.bg-inspired SaaS look. Vite + React 18 + React Router. All image processing runs in the browser; no backend, no uploads.
+OpenSlides Manager — boîte à outils web open source pour présentations et images.
+Frontend Vite + React 18 (thème clair/sombre, i18n FR/EN). Traitement image 100% navigateur.
+Backend Express minimal pour l'**authentification locale** (comptes utilisateurs), sans paiement ni système commercial.
 
 Repo: https://github.com/SimplementJohn/OpenSlides-Manager
 
-## Commands
+## Stack
 
-- `npm run dev` — dev server with HMR (http://localhost:5173)
-- `npm run build` — production build to `dist/` (use this to verify changes compile)
-- `npm run preview` — serve the production build
+- **Frontend**: Vite 5, React 18, React Router 7, lucide-react (icônes). i18n maison (`src/i18n.jsx`).
+- **Backend**: Node + Express, JWT (`jsonwebtoken`) en cookie httpOnly, `bcryptjs` (hash), `helmet`, `cors`, `cookie-parser`, `express-rate-limit`, `dotenv`.
+- **Stockage**: fichier JSON local (`server/data/users.json`, hors git), écritures atomiques. Remplaçable par SQLite/PG.
+- **Image**: `@imgly/background-removal` (ONNX/WASM), `jszip`, `file-saver` — tout côté client.
 
-There are no tests or linter configured. Validate work with `npm run build`.
+## Structure des dossiers
 
-## Architecture
+```
+src/                      # frontend
+  main.jsx                # router + providers (Language, Auth)
+  App.jsx                 # page d'accueil
+  index.css               # design system (tokens :root + html.dark)
+  i18n.jsx                # dictionnaire FR/EN + provider
+  auth.jsx                # contexte auth (fetch /api/auth, cookie session)
+  Drop.jsx                # zone upload image partagée (drag global + paste)
+  components/             # Navbar, Footer, Logo, LangToggle, ThemeToggle,
+                          # Dropzone, Carousel, TemplateCard, GithubPanel, ProtectedRoute
+  pages/                  # Templates(=Outils), Editor, GithubPage, Login, Account,
+                          # BgRemover, LoadingSlides
+  data/templates.js
+server/                   # backend
+  index.js                # bootstrap (listen)
+  app.js                  # création app Express + middlewares
+  config.js               # config depuis .env
+  routes/auth.js          # routes /api/auth (+ rate limit)
+  controllers/authController.js
+  services/authService.js # bcrypt hash/compare, création user
+  middleware/auth.js      # requireAuth (vérifie cookie JWT)
+  middleware/errorHandler.js
+  utils/store.js          # persistance JSON locale
+  utils/token.js          # sign/verify JWT + options cookie
+  utils/validation.js     # validation register/login (aussi côté serveur)
+  data/                   # users.json (généré, gitignore)
+.env.example              # variables d'env (sans secrets)
+```
 
-- `src/main.jsx` — React Router setup. Two layouts: `Layout` (Navbar + Footer) for most pages, `Bare` (Navbar only) for `/login`. `ScrollTop` resets scroll on route change.
-- `src/App.jsx` — home page (hero, dropzone, features, steps, auto-scroll carousel, CTA).
-- `src/index.css` — single design system file. Light theme. Design tokens live in `:root` (`--accent #6366f1`, `--surface`, `--text`, radii, shadows). Utility classes: `.btn`, `.card`, `.container`, `.section`, `.reveal`, etc.
-- `src/components/` — `Navbar`, `Footer`, `Logo`, `Dropzone` (home import), `Carousel`, `TemplateCard`.
-- `src/data/templates.js` — showcase template data; consumed by carousel and Templates page.
-- `src/pages/` — `Templates`, `Editor`, `Credits`, `Pricing`, `Login`, `Projects`, plus the two real tools: `BgRemover`, `LoadingSlides`.
+## Commandes
 
-### Real tools (functional, not mockups)
+```bash
+npm install            # dépendances
+cp .env.example .env   # puis remplir JWT_SECRET (cp/copy selon OS)
+npm run dev:all        # frontend (5173) + backend (4000) ensemble
+npm run dev            # frontend seul
+npm run server:dev     # backend seul (nodemon)
+npm run server         # backend prod (node)
+npm run build          # build frontend -> dist/
+npm run preview        # sert le build
+```
 
-- **`pages/BgRemover.jsx`** (`/bgremover`) — background removal via `@imgly/background-removal`. Runs ONNX/WASM locally (~24MB model downloaded on first use). Outputs a transparent PNG, downloadable.
-- **`pages/LoadingSlides.jsx`** (`/loadingslides`) — the original core feature. Takes one long/thin image, renders N slides where overlay modules fill progressively (`i/n`), zips PNGs via `jszip` + `file-saver`.
-  - Stackable module system: `MODULE_TYPES` catalog + `drawModule(ctx, m, i, n, W, H)` canvas renderer + per-type editor components.
-  - To add a module: add to `MODULE_TYPES`, add a case in `drawModule`, add an editor component.
+Le dev frontend proxy `/api` vers `http://localhost:4000` (voir `vite.config.js`).
+Pas de tests/linter configurés — valider avec `npm run build` + tests manuels API (curl).
 
-The Editor / Credits / Pricing / Projects pages are UI mockups (no real backend logic).
+## Routes API
 
-## Conventions
+Base: `/api`
 
-- Functional React + hooks only.
-- Use CSS variables from `:root`, not hardcoded hex, to stay on the light theme.
-- Icons from `lucide-react`. No emoji as structural icons.
-- Image work stays client-side (Canvas / WASM). Never add server uploads.
-- Respect `prefers-reduced-motion` for animations.
-- Commits: Conventional Commits, subject ≤ 50 chars.
+| Méthode | Route | Auth | Description |
+|--------|-------|------|-------------|
+| GET  | `/api/health` | non | Statut serveur. |
+| POST | `/api/auth/register` | non | Crée un compte `{name,email,password}`. Pose le cookie session. → 201 `{user}`. |
+| POST | `/api/auth/login` | non | Connexion `{email,password}`. Pose le cookie. → 200 `{user}`. |
+| POST | `/api/auth/logout` | non | Efface le cookie session. → `{ok:true}`. |
+| GET  | `/api/auth/me` | **oui** | Renvoie l'utilisateur courant. → `{user}` ou 401. |
+
+Erreurs: `401` (non authentifié / session expirée / identifiants), `409` (email déjà pris),
+`422` (validation, avec `fields`), `429` (rate limit), `500` (générique, sans détails).
+`/register` et `/login` sont rate-limités (20 req / 15 min / IP).
+
+## Fonctionnalités implémentées
+
+- Outils image: **Détourage** (`/bgremover`), **Slides Loading** (`/loadingslides`) — 100% client.
+- Site: accueil, page Outils, éditeur (maquette), page **GitHub** (stats live via API publique).
+- i18n FR/EN (défaut = langue navigateur), **mode sombre** (défaut = préférence système, anti-flash).
+- Drag & drop d'image global sur tout le site.
+- **Auth locale**: inscription, connexion, déconnexion, session via cookie httpOnly JWT,
+  route protégée `/account`, middleware `requireAuth`, validation front + back, loaders, messages d'erreur.
+
+## Fonctionnalités restantes (idées)
+
+- Réinitialisation de mot de passe, vérification email.
+- Sauvegarde de projets utilisateur côté serveur (lier outils au compte).
+- Migration du store JSON vers SQLite + couche repository.
+- Tests automatisés (Vitest front, Supertest API), CI lint.
+- Refresh tokens / rotation, révocation de session.
+
+## Règles de sécurité
+
+- Mots de passe **hashés** avec bcrypt (coût `BCRYPT_ROUNDS`, défaut 12) — jamais en clair, jamais renvoyés.
+- JWT en **cookie httpOnly** (`secure` en prod, `sameSite=lax`) — non lisible par le JS (anti-XSS).
+- `JWT_SECRET` obligatoire en prod (fallback dev explicite uniquement hors prod).
+- Validation systématique côté **serveur** (le front ne fait que de l'UX).
+- `helmet` (en-têtes), `cors` restreint à `CORS_ORIGIN` avec `credentials`, body limité à 100kb.
+- Rate limiting sur login/register (anti brute-force). Comparaison bcrypt même si user absent (anti timing/enumeration).
+- Erreurs serveur génériques en prod (pas de stack/secret exposé). `server/data/` et `.env` gitignore.
+
+## Conventions de code
+
+- React fonctionnel + hooks. Pas de classes.
+- Couleurs via variables CSS (`:root` / `html.dark`), pas de hex en dur.
+- Icônes `lucide-react`, jamais d'emoji structurel.
+- Backend en couches: routes → controllers → services → utils. Pas de logique métier dans les routes.
+- Commentaires utiles seulement (le « pourquoi », pas le « quoi »).
+- Commits Conventional Commits, sujet ≤ 50 caractères.
+
+## Variables d'environnement
+
+Voir `.env.example`. Clés: `PORT`, `NODE_ENV`, `JWT_SECRET` (≥32 chars, requis en prod),
+`JWT_EXPIRES_IN`, `COOKIE_NAME`, `CORS_ORIGIN`, `DATA_DIR`, `BCRYPT_ROUNDS`.
+
+## Décisions techniques
+
+- **Cookie httpOnly plutôt que token en localStorage**: protège contre le vol par XSS.
+- **Store JSON local** plutôt que DB: zéro dépendance native, idéal projet open source local; abstrait dans `utils/store.js` pour migration facile.
+- **bcryptjs** (pur JS) plutôt que `bcrypt` natif: build portable (pas de compilation).
+- **Proxy Vite `/api`**: même origine en dev → cookies simples, pas de CORS côté navigateur.
+- Auth volontairement minimale (pas de pricing/abonnement) — projet non commercial.
 
 ## Gotchas
 
-- `@imgly/background-removal` pulls large WASM/ONNX chunks; build is naturally heavy and slower. Expected.
-- The carousel uses a CSS keyframe (`translateX -50%`) over a doubled list for an infinite loop; pauses on hover.
+- `@imgly/background-removal` télécharge ~24MB de WASM/ONNX à la 1re utilisation; build lourd, normal.
+- Le carousel utilise une keyframe CSS (`translateX -50%`) sur liste doublée pour la boucle infinie.
+- En prod, servir `dist/` derrière le même domaine que l'API, ou ajuster `CORS_ORIGIN` + `secure` cookie (HTTPS requis).

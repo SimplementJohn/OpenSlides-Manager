@@ -18,6 +18,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Local data store (user accounts) — never commit
+server/data/
+
 # Environment / secrets
 .env
 .env.*
