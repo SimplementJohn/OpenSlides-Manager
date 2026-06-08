@@ -116,6 +116,7 @@ Erreurs: `401` (non authentifié / session expirée / identifiants), `409` (emai
 - Backend en couches: routes → controllers → services → utils. Pas de logique métier dans les routes.
 - Commentaires utiles seulement (le « pourquoi », pas le « quoi »).
 - Commits Conventional Commits, sujet ≤ 50 caractères.
+- **Tout le contenu destiné à GitHub est rédigé en anglais**: messages de commit, titres/corps d'issues, pull requests, notes de release, discussions, templates `.github/`, et README/docs publics. (L'UI du site reste bilingue FR/EN via i18n ; les commentaires de code internes peuvent rester en FR.)
 
 ## Variables d'environnement
 
