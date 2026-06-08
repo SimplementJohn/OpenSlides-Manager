@@ -1,8 +1,33 @@
 # OpenSlides Manager
 
-Boîte à outils web pour présentations et images. Thème clair, inspiré de remove.bg : interface simple, blanche, épurée, animations fluides, rendu SaaS.
+Boîte à outils web pour présentations et images. Thème clair/sombre, inspiré de remove.bg : interface simple, épurée, animations fluides, rendu SaaS.
 
 Repo : https://github.com/SimplementJohn/OpenSlides-Manager
+
+<!-- Badges dynamiques (shields.io) -->
+![Stars](https://img.shields.io/github/stars/SimplementJohn/OpenSlides-Manager?style=flat&logo=github)
+![Forks](https://img.shields.io/github/forks/SimplementJohn/OpenSlides-Manager?style=flat&logo=github)
+![Watchers](https://img.shields.io/github/watchers/SimplementJohn/OpenSlides-Manager?style=flat&logo=github)
+![Issues](https://img.shields.io/github/issues/SimplementJohn/OpenSlides-Manager)
+![Pull Requests](https://img.shields.io/github/issues-pr/SimplementJohn/OpenSlides-Manager)
+![Last commit](https://img.shields.io/github/last-commit/SimplementJohn/OpenSlides-Manager)
+![Commit activity](https://img.shields.io/github/commit-activity/m/SimplementJohn/OpenSlides-Manager)
+![Contributors](https://img.shields.io/github/contributors/SimplementJohn/OpenSlides-Manager)
+![Release](https://img.shields.io/github/v/release/SimplementJohn/OpenSlides-Manager?include_prereleases&sort=semver)
+![Repo size](https://img.shields.io/github/repo-size/SimplementJohn/OpenSlides-Manager)
+![Languages](https://img.shields.io/github/languages/top/SimplementJohn/OpenSlides-Manager)
+![License](https://img.shields.io/github/license/SimplementJohn/OpenSlides-Manager)
+
+## Aperçu
+
+### Accueil
+![Page d'accueil](docs/accueil.png)
+
+### Outils
+![Page outils](docs/tools.png)
+
+### Stats GitHub en direct
+![Page GitHub](docs/github.png)
 
 ## Fonctionnalités
 
