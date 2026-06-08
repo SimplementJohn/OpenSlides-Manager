@@ -137,7 +137,9 @@ Voir `.env.example`. Clés: `PORT`, `NODE_ENV`, `JWT_SECRET` (≥32 chars, requi
 - Images demo en **WebP** redimensionnées (765KB PNG → ~69KB), `loading="lazy"` + `decoding="async"`. Favicon/og `icon-slides.png` réduit (176KB → 46KB).
 - Appels API GitHub mémoïsés (`lib/github.js`) — plus de double requête Navbar/GithubPanel.
 - Polices Google chargées via `<link>` + `preconnect` (plus d'`@import` CSS bloquant).
-- Optimisations futures: convertir le logo en SVG, code mort résiduel dans `LoadingSlides.jsx` (système de modules désactivé côté UI — `MODULE_TYPES` counter/dots, éditeurs, presets — supprimable), mettre à jour `lucide-react` (1.17.0, ancien).
+- Logo vectoriel SVG inline (`Logo.jsx`) + favicon `icon-slides.svg` (PNG en fallback / apple-touch / og).
+- `LoadingSlides.jsx` nettoyé: système de modules retiré (~190 lignes mortes), garde une barre gauche→droite fixe.
+- `lucide-react` à jour (1.17.0 = dernière).
 
 ## Gotchas
 

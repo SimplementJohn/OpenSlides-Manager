@@ -229,6 +229,7 @@ html.dark .ba-after { background-color: #161b22; background-image:
 }
 .logo span b { color: var(--accent); }
 .logo-img { border-radius: 9px; object-fit: contain; display: block; }
+.logo-mark-svg { border-radius: 9px; display: block; flex: 0 0 auto; box-shadow: 0 4px 12px rgba(139,92,246,.3); }
 .lang { position: relative; }
 .lang-btn { gap: 6px; }
 .flag { width: 18px; height: 13px; border-radius: 2px; object-fit: cover; display: block; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
@@ -420,22 +421,6 @@ html.dark .ba-after { background-color: #161b22; background-image:
 @keyframes dt-shimmer { from { background-position: 200% 0; } to { background-position: 0 0; } }
 .dt-pct { font-family: Manrope, sans-serif; font-weight: 700; font-size: .85rem; color: #ea580c; min-width: 38px; text-align: right; }
 
-/* loading slides controls */
-.ls-chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--surface); color: var(--text); font-weight: 500; font-size: .85rem;
-  border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; cursor: pointer;
-  transition: border-color .15s, background .15s;
-}
-.ls-chip:hover { background: var(--surface-2); }
-.ls-chip.sel { border: 2px solid var(--accent); background: var(--accent-soft); color: var(--accent-d); }
-.ls-item {
-  display: flex; align-items: center; gap: 8px; padding: 9px 12px; margin-bottom: 6px;
-  border-radius: 10px; cursor: pointer; background: var(--surface);
-  border: 1px solid var(--line); transition: border-color .15s, background .15s;
-}
-.ls-item:hover { background: var(--surface-2); }
-.ls-item.sel { background: var(--accent-soft); border-color: var(--accent); }
 .page .card .preview img, .card.preview img { border-radius: 10px; }
 .ls-imgframe {
   border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
