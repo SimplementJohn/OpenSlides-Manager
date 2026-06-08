@@ -1,17 +1,20 @@
-# Contribuer à OpenSlides Manager
+# Contributing to OpenSlides Manager
 
-Merci de ton intérêt ! Voici comment participer.
+Thanks for your interest! Here's how to take part.
 
-## Mise en route
+> All repo content — code, comments, docs, issues, PRs, commits — is written in **English**.
+
+## Getting started
 
 ```bash
 git clone https://github.com/SimplementJohn/OpenSlides-Manager.git
 cd OpenSlides-Manager
 npm install
-npm run dev
+cp .env.example .env   # fill in JWT_SECRET (only needed for the backend/auth)
+npm run dev:all
 ```
 
-Vérifie qu'un build passe avant d'ouvrir une PR :
+Make sure the build passes before opening a PR:
 
 ```bash
 npm run build
@@ -19,42 +22,51 @@ npm run build
 
 ## Workflow
 
-1. Forke le repo et crée une branche depuis `main` :
-   `git checkout -b feat/ma-fonctionnalite`
-2. Fais tes changements (un sujet par PR).
-3. Vérifie que `npm run build` passe sans erreur.
-4. Commit en [Conventional Commits](https://www.conventionalcommits.org/) :
-   - `feat:` nouvelle fonctionnalité
-   - `fix:` correction de bug
-   - `style:` mise en forme / CSS sans changement de logique
+1. Fork the repo and create a branch off `main`:
+   `git checkout -b feat/my-feature`
+2. Make your changes (one topic per PR).
+3. Ensure `npm run build` passes without errors.
+4. Commit using [Conventional Commits](https://www.conventionalcommits.org/):
+   - `feat:` new feature
+   - `fix:` bug fix
+   - `style:` formatting / CSS with no logic change
    - `chore:` maintenance, deps, config
-   - Sujet ≤ 50 caractères.
-5. Pousse et ouvre une Pull Request vers `main` avec une description claire.
+   - Subject ≤ 50 characters.
+5. Push and open a Pull Request to `main` with a clear description.
 
-## Ajouter un module à « Slides Loading »
+## Product rules (read before adding a feature)
 
-Le rendu des diapos est piloté par des modules empilables dans `src/pages/LoadingSlides.jsx`.
+See [CLAUDE.md](CLAUDE.md) for the full guide. In short:
 
-1. Ajoute une entrée dans `MODULE_TYPES` (label, icône, valeurs par défaut).
-2. Ajoute un cas dans `drawModule(ctx, m, i, n, W, H)` pour le dessin sur canvas.
-3. Crée un composant éditeur (ex. `MonModuleEditor`) et branche-le dans le bloc « Réglages ».
+- **API-first & secure**: any server-side action goes through a clear, validated `/api` route (controllers → services), with proper error handling.
+- **Bilingual**: every user-facing string lives in `src/i18n.jsx` (FR + EN). No hardcoded visible text.
+- **Respect the theme**: reuse the design system (CSS variables, utility classes, shared components) — see the *Design system* section in CLAUDE.md.
+- **Client-side file processing only** (Canvas / WASM). No image/PDF upload to the server.
 
-## Ajouter un modèle vitrine
+## Adding a new tool
 
-Ajoute un objet dans `src/data/templates.js`. Il apparaît automatiquement dans le carousel d'accueil et la page Modèles.
+Follow an existing tool (`src/pages/BgRemover.jsx`, `Arrange.jsx`):
 
-## Style de code
+1. Create `src/pages/MyTool.jsx` using the page pattern (`container page` → `back-link` → `page-head` → `Drop`/dropzone → `card`s).
+2. Add a lazy route in `src/main.jsx`.
+3. Add an entry to the Tools page (`src/pages/Templates.jsx`) and FR/EN keys in `src/i18n.jsx`.
 
-- React fonctionnel + hooks, pas de classes.
-- Garde le thème clair : utilise les variables CSS de `:root` dans `index.css` (`--accent`, `--surface`, `--text`…), pas de hex en dur.
-- Icônes via `lucide-react`, jamais d'emoji comme icône structurelle.
-- Traitement image : côté client uniquement (Canvas / WASM), aucun upload serveur.
-- Respecte `prefers-reduced-motion` pour toute animation.
+## Adding a showcase template
 
-## Signaler un bug
+Add an object to `src/data/templates.js`. It automatically appears in the home carousel and the Tools page.
 
-Ouvre une [issue](https://github.com/SimplementJohn/OpenSlides-Manager/issues) avec :
-- étapes pour reproduire,
-- comportement attendu vs constaté,
-- navigateur / OS,
-- capture si possible.
+## Code style
+
+- Functional React + hooks, no classes.
+- Use CSS variables from `:root` / `html.dark` in `index.css` (`--accent`, `--surface`, `--text`…), never hardcoded hex.
+- Icons via `lucide-react`, never emojis as structural icons.
+- Image/file processing client-side only (Canvas / WASM), no server upload.
+- Respect `prefers-reduced-motion` for any animation.
+
+## Reporting a bug
+
+Open an [issue](https://github.com/SimplementJohn/OpenSlides-Manager/issues) with:
+- steps to reproduce,
+- expected vs actual behavior,
+- browser / OS,
+- a screenshot if possible.

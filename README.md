@@ -1,10 +1,10 @@
 # OpenSlides Manager
 
-Boîte à outils web pour présentations et images. Thème clair/sombre, inspiré de remove.bg : interface simple, épurée, animations fluides, rendu SaaS.
+Open source web toolbox for presentations and images. Light/dark theme, remove.bg-inspired: simple, clean UI, smooth animations, SaaS feel.
 
-Repo : https://github.com/SimplementJohn/OpenSlides-Manager
+Repo: https://github.com/SimplementJohn/OpenSlides-Manager
 
-<!-- Badges dynamiques (shields.io) -->
+<!-- Dynamic badges (shields.io) -->
 ![Stars](https://img.shields.io/github/stars/SimplementJohn/OpenSlides-Manager?style=flat&logo=github)
 ![Forks](https://img.shields.io/github/forks/SimplementJohn/OpenSlides-Manager?style=flat&logo=github)
 ![Watchers](https://img.shields.io/github/watchers/SimplementJohn/OpenSlides-Manager?style=flat&logo=github)
@@ -18,87 +18,80 @@ Repo : https://github.com/SimplementJohn/OpenSlides-Manager
 ![Languages](https://img.shields.io/github/languages/top/SimplementJohn/OpenSlides-Manager)
 ![License](https://img.shields.io/github/license/SimplementJohn/OpenSlides-Manager)
 
-## Aperçu
+## Features
 
-### Accueil
-![Page d'accueil](docs/accueil.png)
+- **Marketing site** — home page, tools page, slide editor (mockup), live GitHub stats page. Free, open source, no account required.
+- **Background removal** (`/bgremover`) — remove an image background, 100% in the browser (`@imgly/background-removal`), free, private, no API key. Live progress bar.
+- **Slides Loading** (`/loadingslides`) — drop a thin/long image, pick a slide count, generate a ZIP of PNGs where a loading bar fills up progressively, slide by slide. Play/scrub preview.
+- **Arrange slides** (`/arrange`) — reorder, duplicate and delete slides (images or PDF pages) via drag & drop, then export the reordered deck as a ZIP.
+- **Auth** — secure local accounts (sign up / log in / log out), protected `/account` page.
+- **Bilingual** UI (FR/EN, defaults to browser language) and **dark mode** (defaults to system preference).
+- **Global drag & drop** of an image anywhere on the site.
 
-### Outils
-![Page outils](docs/tools.png)
-
-### Stats GitHub en direct
-![Page GitHub](docs/github.png)
-
-## Fonctionnalités
-
-- **Site vitrine** — page d'accueil, outils, éditeur (maquette). Gratuit, open source, sans compte.
-- **Détourage** (`/bgremover`) — retire le fond d'une image. 100% local dans le navigateur (`@imgly/background-removal`), gratuit, privé, sans clé API.
-- **Slides Loading** (`/loadingslides`) — colle une image fine, choisis un nombre de diapos, et génère un ZIP de PNG où une barre de chargement (ou compteur / points) se remplit progressivement diapo par diapo.
-  - Modules empilables : barre de chargement, compteur (1/N, %, n), points indicateurs.
-  - Presets couleur + saisie hexa.
-  - Lecteur scrub + bouton Play pour prévisualiser le défilement.
+The UI is bilingual; everything else in the repo (code, docs, issues, commits) is in **English**.
 
 ## Stack
 
-- [Vite](https://vitejs.dev/) + [React 18](https://react.dev/)
-- [React Router](https://reactrouter.com/)
-- [lucide-react](https://lucide.dev/) (icônes)
-- [jszip](https://stuk.github.io/jszip/) + [file-saver](https://github.com/eligrey/FileSaver.js) (export ZIP)
-- [@imgly/background-removal](https://github.com/imgly/background-removal-js) (détourage local, ONNX/WASM)
-- **Backend** : [Express](https://expressjs.com/), [bcryptjs](https://github.com/dcodeIO/bcrypt.js), [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken), helmet, cors, cookie-parser, express-rate-limit, dotenv
+- [Vite](https://vitejs.dev/) + [React 18](https://react.dev/) + [React Router](https://reactrouter.com/)
+- [lucide-react](https://lucide.dev/) (icons)
+- [jszip](https://stuk.github.io/jszip/) + [file-saver](https://github.com/eligrey/FileSaver.js) (ZIP export)
+- [pdfjs-dist](https://mozilla.github.io/pdf.js/) (PDF page rendering)
+- [@imgly/background-removal](https://github.com/imgly/background-removal-js) (local background removal, ONNX/WASM)
+- **Backend**: [Express](https://expressjs.com/), [bcryptjs](https://github.com/dcodeIO/bcrypt.js), [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken), helmet, cors, cookie-parser, express-rate-limit, dotenv
 
-Le traitement image se fait côté client (Canvas API). Le backend ne sert que l'authentification locale (comptes utilisateurs) — aucun upload d'image serveur.
+All file/image processing runs client-side (Canvas / WASM). The backend only handles local authentication — no image upload to the server.
 
-## Démarrage
+## Getting started
 
-Prérequis : [Node.js](https://nodejs.org/) 18+.
+Requires [Node.js](https://nodejs.org/) 18+.
 
 ```bash
 git clone https://github.com/SimplementJohn/OpenSlides-Manager.git
 cd OpenSlides-Manager
 npm install
-cp .env.example .env   # renseigne JWT_SECRET
+cp .env.example .env   # fill in JWT_SECRET
 npm run dev:all        # frontend (5173) + API (4000)
 ```
 
-Ouvre http://localhost:5173
+Open http://localhost:5173
 
-Pour générer un secret : `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
+Generate a secret: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
 
-## Authentification
+## Authentication
 
-Auth locale sécurisée : inscription / connexion / déconnexion, mots de passe hashés (bcrypt),
-session via **cookie httpOnly JWT**, route protégée `/account`, rate limiting anti brute-force.
-Voir la liste des routes API et les règles de sécurité dans [CLAUDE.md](CLAUDE.md).
+Secure local auth: sign up / log in / log out, bcrypt-hashed passwords, session via **httpOnly JWT cookie**,
+protected `/account` route, brute-force rate limiting.
+See the API routes and security rules in [CLAUDE.md](CLAUDE.md).
 
 ## Scripts
 
-| Commande | Effet |
-|----------|-------|
-| `npm run dev:all` | Frontend + API ensemble |
-| `npm run dev` | Frontend seul (HMR) |
-| `npm run server:dev` | API seule (nodemon) |
-| `npm run build` | Build de production dans `dist/` |
-| `npm run preview` | Sert le build de prod localement |
+| Command | Description |
+|---------|-------------|
+| `npm run dev:all` | Frontend + API together |
+| `npm run dev` | Frontend only (HMR) |
+| `npm run server:dev` | API only (nodemon) |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Serve the production build locally |
 
 ## Structure
 
 ```
 src/
-  App.jsx              # page d'accueil (hero, features, carousel, CTA)
-  main.jsx             # router + layouts
-  index.css            # design system (thème clair)
-  Drop.jsx             # zone d'upload image partagée (drag / clic / coller)
-  i18n.jsx             # i18n FR / EN
-  components/          # Navbar, Footer, Logo, Dropzone, Carousel, TemplateCard, LangToggle
-  data/templates.js    # données des modèles vitrine
-  pages/
-    Templates.jsx      # page Outils (liens vers les outils)
-    Editor.jsx         # éditeur de slides (maquette 3 zones)
-    BgRemover.jsx      # outil détourage
-    LoadingSlides.jsx  # outil slides loading
+  App.jsx              # home page (hero, features, carousel, CTA)
+  main.jsx             # router + providers
+  index.css            # design system (light + dark tokens)
+  Drop.jsx             # shared image upload (drag / click / paste)
+  i18n.jsx             # FR / EN i18n
+  auth.jsx             # auth context (cookie session)
+  lib/github.js        # memoized GitHub API access
+  components/          # Navbar, Footer, Logo, LangToggle, ThemeToggle, Dropzone,
+                       # Carousel, TemplateCard, GithubPanel, ProtectedRoute, BeforeAfter, SlidesPreview
+  data/templates.js    # showcase template data
+  pages/               # Templates(=Tools), Editor, GithubPage, Login, Account,
+                       # BgRemover, LoadingSlides, Arrange
+server/                # Express backend (auth) — see CLAUDE.md
 ```
 
-## Licence
+## License
 
-MIT — voir [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
