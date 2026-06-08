@@ -6,14 +6,7 @@ import LangToggle from './LangToggle.jsx'
 import ThemeToggle from './ThemeToggle.jsx'
 import { useI18n } from '../i18n.jsx'
 import { useAuth } from '../auth.jsx'
-
-const REPO = 'https://github.com/SimplementJohn/OpenSlides-Manager'
-const REPO_API = 'https://api.github.com/repos/SimplementJohn/OpenSlides-Manager'
-
-function formatStars(n) {
-  if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k'
-  return String(n)
-}
+import { REPO, ghFetch, fmtCount } from '../lib/github.js'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -23,11 +16,8 @@ export default function Navbar() {
 
   useEffect(() => {
     let alive = true
-    fetch(REPO_API)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (alive && d && typeof d.stargazers_count === 'number') setStars(d.stargazers_count)
-      })
+    ghFetch()
+      .then((d) => { if (alive && typeof d?.stargazers_count === 'number') setStars(d.stargazers_count) })
       .catch(() => {})
     return () => { alive = false }
   }, [])
@@ -52,7 +42,7 @@ export default function Navbar() {
           <LangToggle />
           <a href={REPO} target="_blank" rel="noreferrer" className="btn btn-ghost btn-sm">
             <Code2 size={16} /> {t('nav.star')} <Star size={14} />
-            {stars !== null && <span className="star-count">{formatStars(stars)}</span>}
+            {stars !== null && <span className="star-count">{fmtCount(stars)}</span>}
           </a>
           {user
             ? <Link to="/account" className="btn btn-ghost btn-sm" title={user.name}><User size={16} /> {t('auth.account')}</Link>

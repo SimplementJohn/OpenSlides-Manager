@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Star, GitFork, Eye, GitBranch, Tag, CircleDot, GitCommit, Users } from 'lucide-react'
 import { useI18n } from '../i18n.jsx'
+import { REPO, ghFetch, fmtCount as fmt } from '../lib/github.js'
 
-const REPO = 'https://github.com/SimplementJohn/OpenSlides-Manager'
-const API = 'https://api.github.com/repos/SimplementJohn/OpenSlides-Manager'
-
-const fmt = (n) => (n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'k' : `${n ?? 0}`)
 const timeAgo = (iso, lang) => {
   const s = Math.floor((Date.now() - new Date(iso)) / 1000)
   const u = [['an', 'yr', 31536000], ['mois', 'mo', 2592000], ['j', 'd', 86400], ['h', 'h', 3600], ['min', 'min', 60]]
@@ -22,13 +19,12 @@ export default function GithubPanel() {
 
   useEffect(() => {
     let alive = true
-    const j = (u) => fetch(u).then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
     Promise.allSettled([
-      j(API),
-      j(`${API}/contributors?per_page=12`),
-      j(`${API}/commits?per_page=5`),
-      j(`${API}/branches?per_page=100`),
-      j(`${API}/releases?per_page=100`),
+      ghFetch(),
+      ghFetch('/contributors?per_page=12'),
+      ghFetch('/commits?per_page=5'),
+      ghFetch('/branches?per_page=100'),
+      ghFetch('/releases?per_page=100'),
     ]).then(([rRepo, rContrib, rCommits, rBranches, rReleases]) => {
       if (!alive) return
       if (rRepo.status === 'fulfilled') setRepo(rRepo.value)

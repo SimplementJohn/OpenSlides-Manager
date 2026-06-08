@@ -42,7 +42,7 @@ export default function Templates() {
         {shown.map((tl) => (
           <Link key={tl.to} to={tl.to} className="tool-card">
             <div className="tool-media" style={{ background: `linear-gradient(135deg, ${tl.c1}14, ${tl.c2}26)` }}>
-              {tl.demo === 'ba' && <BeforeAfter before="/demo/vase.png" after="/demo/vase-cut.png" alt={t(`tools.${tl.k}.t`)} />}
+              {tl.demo === 'ba' && <BeforeAfter before="/demo/vase.webp" after="/demo/vase-cut.webp" alt={t(`tools.${tl.k}.t`)} />}
               {tl.demo === 'slides' && <SlidesPreview />}
               {!tl.demo && <span className="tool-ico" style={{ color: tl.c1 }}>{tl.icon}</span>}
             </div>

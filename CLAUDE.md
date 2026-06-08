@@ -32,6 +32,7 @@ src/                      # frontend
   pages/                  # Templates(=Outils), Editor, GithubPage, Login, Account,
                           # BgRemover, LoadingSlides
   data/templates.js
+  lib/github.js           # accès API GitHub mémoïsé (Navbar + page GitHub)
 server/                   # backend
   index.js                # bootstrap (listen)
   app.js                  # création app Express + middlewares
@@ -128,6 +129,15 @@ Voir `.env.example`. Clés: `PORT`, `NODE_ENV`, `JWT_SECRET` (≥32 chars, requi
 - **bcryptjs** (pur JS) plutôt que `bcrypt` natif: build portable (pas de compilation).
 - **Proxy Vite `/api`**: même origine en dev → cookies simples, pas de CORS côté navigateur.
 - Auth volontairement minimale (pas de pricing/abonnement) — projet non commercial.
+
+## Performances
+
+- Vendor React/router isolé dans un chunk `react-vendor` (`vite.config.js` manualChunks) → cache long terme; le chunk app passe de ~226KB à ~48KB.
+- Pages lourdes en lazy import (BgRemover/imgly, LoadingSlides/jszip, Editor, GitHub) — chargées à la demande.
+- Images demo en **WebP** redimensionnées (765KB PNG → ~69KB), `loading="lazy"` + `decoding="async"`. Favicon/og `icon-slides.png` réduit (176KB → 46KB).
+- Appels API GitHub mémoïsés (`lib/github.js`) — plus de double requête Navbar/GithubPanel.
+- Polices Google chargées via `<link>` + `preconnect` (plus d'`@import` CSS bloquant).
+- Optimisations futures: convertir le logo en SVG, code mort résiduel dans `LoadingSlides.jsx` (système de modules désactivé côté UI — `MODULE_TYPES` counter/dots, éditeurs, presets — supprimable), mettre à jour `lucide-react` (1.17.0, ancien).
 
 ## Gotchas
 
