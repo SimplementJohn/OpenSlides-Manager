@@ -422,6 +422,31 @@ html.dark .ba-after { background-color: #161b22; background-image:
 .dt-pct { font-family: Manrope, sans-serif; font-weight: 700; font-size: .85rem; color: #ea580c; min-width: 38px; text-align: right; }
 
 .page .card .preview img, .card.preview img { border-radius: 10px; }
+
+/* arrange slides */
+.arr-bar { display: flex; align-items: center; justify-content: space-between; margin: 24px 0 18px; flex-wrap: wrap; gap: 12px; }
+.arr-count { font-weight: 600; color: var(--muted); }
+.arr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+.arr-card {
+  position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  overflow: hidden; box-shadow: var(--shadow-sm); cursor: grab; transition: box-shadow .15s, transform .1s, opacity .15s;
+}
+.arr-card:hover { box-shadow: var(--shadow); }
+.arr-card.dragging { opacity: .4; cursor: grabbing; }
+.arr-card img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: contain; background: var(--surface); }
+.arr-num {
+  position: absolute; top: 8px; left: 8px; display: flex; align-items: center; gap: 2px;
+  background: rgba(0,0,0,.6); color: #fff; font-size: .76rem; font-weight: 700;
+  padding: 3px 8px 3px 5px; border-radius: 999px;
+}
+.arr-actions { position: absolute; top: 8px; right: 8px; display: flex; gap: 6px; opacity: 0; transition: opacity .15s; }
+.arr-card:hover .arr-actions { opacity: 1; }
+.arr-actions button {
+  width: 30px; height: 30px; display: grid; place-items: center; border-radius: 8px; cursor: pointer;
+  background: var(--card); border: 1px solid var(--line); color: var(--text);
+}
+.arr-actions button:hover { background: var(--surface-2); }
+.arr-actions .arr-del:hover { color: #dc2626; border-color: #dc2626; }
 .ls-imgframe {
   border: 1px solid var(--line); border-radius: 12px; background: var(--surface);
   padding: 14px; display: flex; align-items: center; justify-content: center; overflow: auto;

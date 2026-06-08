@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Scissors, Film, ArrowRight, Search } from 'lucide-react'
+import { Scissors, Film, LayoutGrid, ArrowRight, Search } from 'lucide-react'
 import { useI18n } from '../i18n.jsx'
 import BeforeAfter from '../components/BeforeAfter.jsx'
 import SlidesPreview from '../components/SlidesPreview.jsx'
@@ -11,6 +11,7 @@ export default function Templates() {
   const TOOLS = [
     { to: '/bgremover', icon: <Scissors size={26} />, c1: '#6366f1', c2: '#8b5cf6', k: 'bg', demo: 'ba' },
     { to: '/loadingslides', icon: <Film size={26} />, c1: '#0ea5e9', c2: '#2563eb', k: 'slides', demo: 'slides' },
+    { to: '/arrange', icon: <LayoutGrid size={26} />, c1: '#f59e0b', c2: '#ec4899', k: 'arrange' },
   ]
 
   const needle = q.trim().toLowerCase()

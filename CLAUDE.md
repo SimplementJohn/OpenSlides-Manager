@@ -1,21 +1,44 @@
 # CLAUDE.md
 
 Guidance for Claude Code (and other AI agents) working in this repo. **Keep this file updated after every important change.**
+This file is **committed and public** (intentionally — no secrets here). It is the single source of truth for understanding the project; it is written to be easy for AI agents to parse.
 
 ## Résumé du projet
 
-OpenSlides Manager — boîte à outils web open source pour présentations et images.
-Frontend Vite + React 18 (thème clair/sombre, i18n FR/EN). Traitement image 100% navigateur.
+OpenSlides Manager — boîte à outils web **open source** pour présentations et images.
+Frontend Vite + React 18 (thème clair/sombre, i18n FR/EN). Traitement image/fichier 100% navigateur.
 Backend Express minimal pour l'**authentification locale** (comptes utilisateurs), sans paiement ni système commercial.
 
+**Idée**: offrir des outils simples et privés (détourage, slides de chargement, réorganisation, et à venir conversion PDF/PPTX, filigrane, pagination…) qui tournent dans le navigateur, gratuits, sans upload serveur. Voir les **issues GitHub** pour les fonctionnalités planifiées.
+
 Repo: https://github.com/SimplementJohn/OpenSlides-Manager
+Licence: **MIT** (voir [LICENSE](LICENSE)).
+
+## Règles produit (à respecter pour TOUTE nouvelle fonctionnalité)
+
+1. **API d'abord, sécurisée et pro**: toute action côté serveur passe par une route `/api` claire, validée (front + back), avec gestion d'erreurs propre et les protections en place (voir Règles de sécurité). Pas de logique métier dans les routes (couches controllers/services).
+2. **Bilingue obligatoire**: chaque page/écran existe en **français ET anglais** via `src/i18n.jsx` (clés `t('...')`, jamais de texte codé en dur visible).
+3. **Thème respecté**: réutiliser le design system (variables CSS, classes utilitaires, composants) — voir la section *Design system*. Pas de styles hors-charte ni de couleurs en dur.
+4. **100% client pour le traitement de fichiers** (Canvas / WASM) — aucun upload d'image/PDF vers le serveur.
+5. **Documenter ici**: après ajout, mettre à jour ce fichier (structure, features, routes, deps) ET, pour le public, les issues/README en **anglais**.
+
+## Design system (thème du site)
+
+- **Fichier unique**: `src/index.css`. Tokens dans `:root` (clair) et surcharge sous `html.dark` (sombre, palette type GitHub).
+  Tokens clés: `--bg`, `--surface`, `--surface-2`, `--line`, `--text`, `--muted`, `--muted-2`, `--accent (#6366f1)`, `--accent-d`, `--accent-soft`, `--card`, `--nav-bg`, `--radius`, `--radius-lg`, `--shadow*`.
+- **Mode sombre**: classe `dark` sur `<html>`, gérée par `ThemeToggle` (défaut = préférence système, choix mémorisé en `localStorage`, anti-flash via script inline dans `index.html`). Toujours utiliser les tokens pour que les deux thèmes marchent.
+- **Polices**: Manrope (titres `h1-h4`), Inter (corps) — chargées via `<link>` dans `index.html`.
+- **Classes utilitaires réutilisables**: `.container`, `.page`, `.page-head`, `.card`, `.btn` (+ `.btn-primary/.btn-ghost/.btn-lg/.btn-sm`), `.field`, `.dropzone`/`.dz-*`, `.tool-badge`, `.back-link`, `.reveal` (animation d'entrée), `.loader`, `.bg-frame`/`.bg-label`, `.section`.
+- **Pattern d'une page outil**: `<div className="container page">` → `back-link` → `page-head` (tool-badge + h1 + p) → zone `Drop`/dropzone → cartes `.card`. S'inspirer de `BgRemover.jsx` / `Arrange.jsx`.
+- **Composants partagés**: `Drop.jsx` (upload image: drag global + paste), `Navbar`, `Footer`, `Logo` (SVG inline), `LangToggle`, `ThemeToggle`, `ProtectedRoute`.
+- **Librairies imposées**: icônes **lucide-react** (jamais d'emoji structurel) ; ZIP **jszip** + **file-saver** ; PDF (rendu) **pdfjs-dist** ; détourage **@imgly/background-removal**. Réutiliser ces libs avant d'en ajouter d'autres.
 
 ## Stack
 
 - **Frontend**: Vite 5, React 18, React Router 7, lucide-react (icônes). i18n maison (`src/i18n.jsx`).
 - **Backend**: Node + Express, JWT (`jsonwebtoken`) en cookie httpOnly, `bcryptjs` (hash), `helmet`, `cors`, `cookie-parser`, `express-rate-limit`, `dotenv`.
 - **Stockage**: fichier JSON local (`server/data/users.json`, hors git), écritures atomiques. Remplaçable par SQLite/PG.
-- **Image**: `@imgly/background-removal` (ONNX/WASM), `jszip`, `file-saver` — tout côté client.
+- **Image/fichier**: `@imgly/background-removal` (ONNX/WASM), `jszip`, `file-saver`, `pdfjs-dist` (rendu PDF→images) — tout côté client.
 
 ## Structure des dossiers
 
@@ -30,7 +53,7 @@ src/                      # frontend
   components/             # Navbar, Footer, Logo, LangToggle, ThemeToggle,
                           # Dropzone, Carousel, TemplateCard, GithubPanel, ProtectedRoute
   pages/                  # Templates(=Outils), Editor, GithubPage, Login, Account,
-                          # BgRemover, LoadingSlides
+                          # BgRemover, LoadingSlides, Arrange
   data/templates.js
   lib/github.js           # accès API GitHub mémoïsé (Navbar + page GitHub)
 server/                   # backend
@@ -83,7 +106,7 @@ Erreurs: `401` (non authentifié / session expirée / identifiants), `409` (emai
 
 ## Fonctionnalités implémentées
 
-- Outils image: **Détourage** (`/bgremover`), **Slides Loading** (`/loadingslides`) — 100% client.
+- Outils: **Détourage** (`/bgremover`), **Slides Loading** (`/loadingslides`), **Réorganiser les slides** (`/arrange` — réordonne/duplique/supprime images ou PDF en glisser-déposer, export ZIP) — 100% client.
 - Site: accueil, page Outils, éditeur (maquette), page **GitHub** (stats live via API publique).
 - i18n FR/EN (défaut = langue navigateur), **mode sombre** (défaut = préférence système, anti-flash).
 - Drag & drop d'image global sur tout le site.

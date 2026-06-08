@@ -14,6 +14,7 @@ const Templates = lazy(() => import('./pages/Templates.jsx'))
 const Editor = lazy(() => import('./pages/Editor.jsx'))
 const LoadingSlides = lazy(() => import('./pages/LoadingSlides.jsx'))
 const BgRemover = lazy(() => import('./pages/BgRemover.jsx'))
+const Arrange = lazy(() => import('./pages/Arrange.jsx'))
 const GithubPage = lazy(() => import('./pages/GithubPage.jsx'))
 const Login = lazy(() => import('./pages/Login.jsx'))
 const Account = lazy(() => import('./pages/Account.jsx'))
@@ -51,6 +52,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/customize" element={<Editor />} />
           <Route path="/bgremover" element={<BgRemover />} />
           <Route path="/loadingslides" element={<LoadingSlides />} />
+          <Route path="/arrange" element={<Arrange />} />
           <Route path="/github" element={<GithubPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
