@@ -19,6 +19,11 @@ const GithubPage = lazy(() => import('./pages/GithubPage.jsx'))
 const Login = lazy(() => import('./pages/Login.jsx'))
 const Account = lazy(() => import('./pages/Account.jsx'))
 const Pagination = lazy(() => import('./pages/Pagination.jsx'))
+const Watermark  = lazy(() => import('./pages/Watermark.jsx'))
+const Reformat   = lazy(() => import('./pages/Reformat.jsx'))
+const PptxToPdf  = lazy(() => import('./pages/PptxToPdf.jsx'))
+const PdfToPptx  = lazy(() => import('./pages/PdfToPptx.jsx'))
+const Present    = lazy(() => import('./pages/Present.jsx'))
 
 function ScrollTop() {
   const { pathname } = useLocation()
@@ -55,6 +60,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/loadingslides" element={<LoadingSlides />} />
           <Route path="/arrange" element={<Arrange />} />
           <Route path="/pagination" element={<Pagination />} />
+          <Route path="/watermark"  element={<Watermark />} />
+          <Route path="/reformat"   element={<Reformat />} />
+          <Route path="/pptx2pdf"   element={<PptxToPdf />} />
+          <Route path="/pdf2pptx"   element={<PdfToPptx />} />
+          <Route path="/present"    element={<Present />} />
           <Route path="/github" element={<GithubPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />

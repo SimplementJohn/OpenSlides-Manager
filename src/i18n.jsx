@@ -64,6 +64,34 @@ const DICT = {
     'arr.drop': 'Dépose des images ou un PDF', 'arr.hint': 'Glisse plusieurs fichiers ou clique pour parcourir',
     'arr.loading': 'Chargement…', 'arr.slides': 'slides', 'arr.export': 'Exporter le ZIP',
     'arr.dup': 'Dupliquer', 'arr.del': 'Supprimer',
+    // watermark
+    'tools.wm.t': 'Filigrane', 'tools.wm.d': 'Appose un texte en filigrane sur chaque page (PDF ou images). Angle, opacité, répétition.',
+    'wm.title': 'Filigrane', 'wm.sub': 'Ajoute un texte en filigrane sur chaque slide ou page PDF. 100% local.',
+    'wm.text': 'Texte', 'wm.angle': 'Orientation', 'wm.mode': 'Mode', 'wm.center': 'Centre', 'wm.tiled': 'Répété',
+    // reformat
+    'tools.rf.t': 'Recadrage / Format', 'tools.rf.d': 'Convertit le ratio de tes slides : 16:9 ↔ 4:3, 1:1, format custom. Letterbox, recadrage ou étirement.',
+    'rf.title': 'Recadrage / Format', 'rf.sub': 'Change le ratio de tes slides ou pages PDF. 100% local.',
+    'rf.ratio': 'Format cible', 'rf.custom': 'Personnalisé', 'rf.bg': 'Couleur fond',
+    'rf.fit': 'Letterbox', 'rf.fill': 'Recadrer', 'rf.stretch': 'Étirer', 'rf.auto': 'Auto',
+    // pptx→pdf
+    'tools.p2p.t': 'Images / PPTX → PDF', 'tools.p2p.d': 'Assemble des images ou slides en un fichier PDF téléchargeable.',
+    'p2p.title': 'Images → PDF', 'p2p.sub': 'Glisse des images (ou un PDF) et télécharge un PDF assemblé. 100% local.',
+    'p2p.drop': 'Dépose des images ou un PDF', 'p2p.hint': 'Glisse plusieurs fichiers — ordre alphabétique',
+    'p2p.orient': 'Format page', 'p2p.export': 'Télécharger le PDF', 'p2p.building': 'Construction du PDF…',
+    // pdf→pptx
+    'tools.pdf2pptx.t': 'PDF → PowerPoint', 'tools.pdf2pptx.d': 'Convertit chaque page d\'un PDF en diapositive .pptx (1 page = 1 slide image).',
+    'pdf2pptx.title': 'PDF → PowerPoint', 'pdf2pptx.sub': 'Chaque page PDF devient une diapositive dans un fichier .pptx. 100% local.',
+    'pdf2pptx.drop': 'Dépose un fichier PDF', 'pdf2pptx.hint': 'Un seul PDF',
+    'pdf2pptx.format': 'Format des slides', 'pdf2pptx.quality': 'Qualité rendu',
+    'pdf2pptx.q.low': 'Rapide', 'pdf2pptx.q.medium': 'Moyen', 'pdf2pptx.q.high': 'Haute',
+    'pdf2pptx.export': 'Télécharger le .pptx', 'pdf2pptx.building': 'Génération…',
+    // presenter
+    'tools.pres.t': 'Mode présentateur', 'tools.pres.d': 'Lance tes slides en mode présentation : slide suivante, notes, chrono, navigation clavier.',
+    'pres.title': 'Mode présentateur', 'pres.sub': 'Présente tes slides en plein écran avec notes et chronomètre. 100% local.',
+    'pres.cfg': 'Présentation', 'pres.start': 'Lancer la présentation', 'pres.exit': 'Quitter',
+    'pres.next': 'Slide suivante', 'pres.last': 'Fin de présentation',
+    'pres.notes': 'Notes', 'pres.notes.ph': 'Ajoute tes notes ici…', 'pres.notes.all': 'Notes par slide',
+    'pres.keys': '← → pour naviguer · Esc pour quitter · F pour plein écran',
     // pagination tool
     'tools.pag.t': 'Pagination', 'tools.pag.d': 'Numérote chaque page/diapo avec un texte personnalisé — position, police, couleur, opacité.',
     'pag.title': 'Pagination', 'pag.sub': 'Appose un numéro de page sur chaque diapo ou page PDF. 100% local.',
@@ -199,6 +227,34 @@ const DICT = {
     'arr.drop': 'Drop images or a PDF', 'arr.hint': 'Drag multiple files or click to browse',
     'arr.loading': 'Loading…', 'arr.slides': 'slides', 'arr.export': 'Export ZIP',
     'arr.dup': 'Duplicate', 'arr.del': 'Delete',
+    // watermark
+    'tools.wm.t': 'Watermark', 'tools.wm.d': 'Stamp a text watermark on every page (PDF or images). Angle, opacity, tiling.',
+    'wm.title': 'Watermark', 'wm.sub': 'Add a text watermark to every slide or PDF page. 100% local.',
+    'wm.text': 'Text', 'wm.angle': 'Angle', 'wm.mode': 'Mode', 'wm.center': 'Center', 'wm.tiled': 'Tiled',
+    // reformat
+    'tools.rf.t': 'Reformat / Resize', 'tools.rf.d': 'Convert slide ratio: 16:9 ↔ 4:3, 1:1, custom. Letterbox, crop or stretch.',
+    'rf.title': 'Reformat / Resize', 'rf.sub': 'Change the aspect ratio of your slides or PDF pages. 100% local.',
+    'rf.ratio': 'Target format', 'rf.custom': 'Custom', 'rf.bg': 'Background color',
+    'rf.fit': 'Letterbox', 'rf.fill': 'Crop', 'rf.stretch': 'Stretch', 'rf.auto': 'Auto',
+    // pptx→pdf
+    'tools.p2p.t': 'Images / Slides → PDF', 'tools.p2p.d': 'Assemble images or slides into a downloadable PDF file.',
+    'p2p.title': 'Images → PDF', 'p2p.sub': 'Drop images (or a PDF) and download an assembled PDF. 100% local.',
+    'p2p.drop': 'Drop images or a PDF', 'p2p.hint': 'Drag multiple files — alphabetical order',
+    'p2p.orient': 'Page format', 'p2p.export': 'Download PDF', 'p2p.building': 'Building PDF…',
+    // pdf→pptx
+    'tools.pdf2pptx.t': 'PDF → PowerPoint', 'tools.pdf2pptx.d': 'Convert each PDF page into a .pptx slide (1 page = 1 image slide).',
+    'pdf2pptx.title': 'PDF → PowerPoint', 'pdf2pptx.sub': 'Each PDF page becomes a slide in a .pptx file. 100% local.',
+    'pdf2pptx.drop': 'Drop a PDF file', 'pdf2pptx.hint': 'One PDF at a time',
+    'pdf2pptx.format': 'Slide format', 'pdf2pptx.quality': 'Render quality',
+    'pdf2pptx.q.low': 'Fast', 'pdf2pptx.q.medium': 'Medium', 'pdf2pptx.q.high': 'High',
+    'pdf2pptx.export': 'Download .pptx', 'pdf2pptx.building': 'Generating…',
+    // presenter
+    'tools.pres.t': 'Presenter mode', 'tools.pres.d': 'Run slides in presentation mode: next slide preview, notes, timer, keyboard nav.',
+    'pres.title': 'Presenter mode', 'pres.sub': 'Present your slides fullscreen with notes and a timer. 100% local.',
+    'pres.cfg': 'Presentation', 'pres.start': 'Start presentation', 'pres.exit': 'Exit',
+    'pres.next': 'Next slide', 'pres.last': 'End of presentation',
+    'pres.notes': 'Notes', 'pres.notes.ph': 'Add your notes here…', 'pres.notes.all': 'Notes per slide',
+    'pres.keys': '← → to navigate · Esc to exit · F for fullscreen',
     // pagination tool
     'tools.pag.t': 'Pagination', 'tools.pag.d': 'Stamp a custom page number on every slide or PDF page — position, font, color, opacity.',
     'pag.title': 'Pagination', 'pag.sub': 'Stamp a page number on every slide or PDF page. 100% local.',
