@@ -64,6 +64,9 @@ const DICT = {
     'arr.drop': 'Dépose des images ou un PDF', 'arr.hint': 'Glisse plusieurs fichiers ou clique pour parcourir',
     'arr.loading': 'Chargement…', 'arr.slides': 'slides', 'arr.export': 'Exporter le ZIP',
     'arr.dup': 'Dupliquer', 'arr.del': 'Supprimer',
+    // tags
+    'tag.image': 'Image', 'tag.slides': 'Slides', 'tag.pdf': 'PDF',
+    'tag.conversion': 'Conversion', 'tag.annotation': 'Annotation', 'tag.presentation': 'Présentation',
     // watermark
     'tools.wm.t': 'Filigrane', 'tools.wm.d': 'Appose un texte en filigrane sur chaque page (PDF ou images). Angle, opacité, répétition.',
     'wm.title': 'Filigrane', 'wm.sub': 'Ajoute un texte en filigrane sur chaque slide ou page PDF. 100% local.',
@@ -227,6 +230,9 @@ const DICT = {
     'arr.drop': 'Drop images or a PDF', 'arr.hint': 'Drag multiple files or click to browse',
     'arr.loading': 'Loading…', 'arr.slides': 'slides', 'arr.export': 'Export ZIP',
     'arr.dup': 'Duplicate', 'arr.del': 'Delete',
+    // tags
+    'tag.image': 'Image', 'tag.slides': 'Slides', 'tag.pdf': 'PDF',
+    'tag.conversion': 'Conversion', 'tag.annotation': 'Annotation', 'tag.presentation': 'Presentation',
     // watermark
     'tools.wm.t': 'Watermark', 'tools.wm.d': 'Stamp a text watermark on every page (PDF or images). Angle, opacity, tiling.',
     'wm.title': 'Watermark', 'wm.sub': 'Add a text watermark to every slide or PDF page. 100% local.',

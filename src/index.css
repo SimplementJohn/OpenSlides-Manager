@@ -213,6 +213,22 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
 }
 
+/* ---------- tool tags ---------- */
+.tool-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.tool-tag {
+  padding: 4px 12px; border-radius: 999px; font-size: .75rem; font-weight: 600;
+  border: 1.5px solid var(--line); background: var(--surface-2); color: var(--muted);
+  cursor: pointer; transition: all .15s ease;
+}
+.tool-tag:hover { border-color: var(--accent); color: var(--accent); }
+.tool-tag.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tool-card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0 4px; }
+.tool-card-tag {
+  font-size: .62rem; font-weight: 600; padding: 1px 7px; border-radius: 999px;
+  background: var(--surface-2); color: var(--muted-2); border: 1px solid var(--line);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+
 /* ---------- pagination page ---------- */
 .pag-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; align-items: start; }
 @media (max-width: 700px) { .pag-layout { grid-template-columns: 1fr; } }
