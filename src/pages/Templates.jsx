@@ -6,6 +6,11 @@ import BeforeAfter from '../components/BeforeAfter.jsx'
 import SlidesPreview from '../components/SlidesPreview.jsx'
 import ArrangePreview from '../components/ArrangePreview.jsx'
 import WatermarkPreview from '../components/WatermarkPreview.jsx'
+import PaginationPreview from '../components/PaginationPreview.jsx'
+import ReformatPreview from '../components/ReformatPreview.jsx'
+import PdfPreview from '../components/PdfPreview.jsx'
+import PptxPreview from '../components/PptxPreview.jsx'
+import PresenterPreview from '../components/PresenterPreview.jsx'
 
 export default function Templates() {
   const { t } = useI18n()
@@ -14,12 +19,12 @@ export default function Templates() {
     { to: '/bgremover', icon: <Scissors size={26} />, c1: '#6366f1', c2: '#8b5cf6', k: 'bg', demo: 'ba' },
     { to: '/loadingslides', icon: <Film size={26} />, c1: '#0ea5e9', c2: '#2563eb', k: 'slides', demo: 'slides' },
     { to: '/arrange', icon: <LayoutGrid size={26} />, c1: '#f59e0b', c2: '#ec4899', k: 'arrange', demo: 'arrange' },
-    { to: '/pagination', icon: <Hash size={26} />,          c1: '#8b5cf6', c2: '#ec4899', k: 'pag' },
+    { to: '/pagination', icon: <Hash size={26} />,          c1: '#8b5cf6', c2: '#ec4899', k: 'pag', demo: 'pag' },
     { to: '/watermark',  icon: <Droplets size={26} />,      c1: '#ef4444', c2: '#f97316', k: 'wm', demo: 'wm' },
-    { to: '/reformat',   icon: <Maximize2 size={26} />,     c1: '#0ea5e9', c2: '#6366f1', k: 'rf' },
-    { to: '/pptx2pdf',   icon: <FileOutput size={26} />,    c1: '#f97316', c2: '#ef4444', k: 'p2p' },
-    { to: '/pdf2pptx',   icon: <Presentation size={26} />,  c1: '#6366f1', c2: '#8b5cf6', k: 'pdf2pptx' },
-    { to: '/present',    icon: <Monitor size={26} />,        c1: '#10b981', c2: '#0ea5e9', k: 'pres' },
+    { to: '/reformat',   icon: <Maximize2 size={26} />,     c1: '#0ea5e9', c2: '#6366f1', k: 'rf',       demo: 'rf' },
+    { to: '/pptx2pdf',   icon: <FileOutput size={26} />,    c1: '#f97316', c2: '#ef4444', k: 'p2p',      demo: 'pdf' },
+    { to: '/pdf2pptx',   icon: <Presentation size={26} />,  c1: '#6366f1', c2: '#8b5cf6', k: 'pdf2pptx', demo: 'pptx' },
+    { to: '/present',    icon: <Monitor size={26} />,        c1: '#10b981', c2: '#0ea5e9', k: 'pres',     demo: 'pres' },
   ]
 
   const needle = q.trim().toLowerCase()
@@ -54,7 +59,12 @@ export default function Templates() {
               {tl.demo === 'ba' && <BeforeAfter before="/demo/vase.webp" after="/demo/vase-cut.webp" alt={t(`tools.${tl.k}.t`)} />}
               {tl.demo === 'slides' && <SlidesPreview />}
               {tl.demo === 'arrange' && <ArrangePreview />}
-              {tl.demo === 'wm' && <WatermarkPreview />}
+              {tl.demo === 'wm'   && <WatermarkPreview />}
+              {tl.demo === 'pag'  && <PaginationPreview />}
+              {tl.demo === 'rf'   && <ReformatPreview />}
+              {tl.demo === 'pdf'  && <PdfPreview />}
+              {tl.demo === 'pptx' && <PptxPreview />}
+              {tl.demo === 'pres' && <PresenterPreview />}
               {!tl.demo && <span className="tool-ico" style={{ color: tl.c1 }}>{tl.icon}</span>}
             </div>
             <div className="tool-body">

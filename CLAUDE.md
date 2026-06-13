@@ -33,8 +33,9 @@ License: **MIT** (see [LICENSE](LICENSE)).
 - **Fonts**: Manrope (headings `h1-h4`), Inter (body) — loaded via `<link>` in `index.html`.
 - **Reusable utility classes**: `.container`, `.page`, `.page-head`, `.card`, `.btn` (+ `.btn-primary/.btn-ghost/.btn-lg/.btn-sm`), `.field`, `.dropzone`/`.dz-*`, `.tool-badge`, `.back-link`, `.reveal` (entrance animation), `.loader`, `.bg-frame`/`.bg-label`, `.section`.
 - **Tool page pattern**: `<div className="container page">` → `back-link` → `page-head` (tool-badge + h1 + p) → `Drop`/dropzone → `.card`s. Mirror `BgRemover.jsx` / `Arrange.jsx`.
+- **Tool card preview pattern**: every tool in the Tools grid (`/tools`) should have an animated preview component instead of a bare icon. Create `src/components/<Name>Preview.jsx`, use CSS class `.wmp` + `.wmp-slide` (shared slide shell — fixed height `max-height:160px`, `aspect-ratio:16/9`, overflow hidden). Add `demo: '<key>'` to the tool entry in `Templates.jsx` and wire it in the `{tl.demo === '<key>'}` block. See `WatermarkPreview`, `PaginationPreview`, `ArrangePreview`, `SlidesPreview`, `BeforeAfter` for reference implementations.
 - **Shared components**: `Drop.jsx` (image upload: global drag + paste), `Navbar`, `Footer`, `Logo` (inline SVG), `LangToggle`, `ThemeToggle`, `ProtectedRoute`.
-- **Required libraries**: icons **lucide-react** (never emoji as structural icons); ZIP **jszip** + **file-saver**; PDF rendering **pdfjs-dist**; background removal **@imgly/background-removal**. Reuse these before adding new ones.
+- **Required libraries**: icons **lucide-react** (never emoji as structural icons); ZIP **jszip** + **file-saver**; PDF rendering **pdfjs-dist**; background removal **@imgly/background-removal**; PDF generation **pdf-lib**; PPTX export **pptxgenjs**. Reuse these before adding new ones.
 
 ## Stack
 
@@ -55,9 +56,12 @@ src/                      # frontend
   Drop.jsx                # shared image upload (global drag + paste)
   lib/github.js           # memoized GitHub API access (Navbar + GitHub page)
   components/             # Navbar, Footer, Logo, LangToggle, ThemeToggle, Dropzone,
-                          # Carousel, TemplateCard, GithubPanel, ProtectedRoute, BeforeAfter, SlidesPreview
+                          # Carousel, TemplateCard, GithubPanel, ProtectedRoute, BeforeAfter, SlidesPreview,
+                          # ArrangePreview, WatermarkPreview, PaginationPreview, ReformatPreview,
+                          # PdfPreview, PptxPreview, PresenterPreview
   pages/                  # Templates(=Tools), Editor, GithubPage, Login, Account,
-                          # BgRemover, LoadingSlides, Arrange
+                          # BgRemover, LoadingSlides, Arrange, Pagination, Watermark,
+                          # Reformat, PptxToPdf, PdfToPptx, Present
   data/templates.js
 server/                   # backend
   index.js                # bootstrap (listen)
