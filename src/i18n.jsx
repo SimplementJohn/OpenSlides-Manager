@@ -67,6 +67,8 @@ const DICT = {
     // tags
     'tag.image': 'Image', 'tag.slides': 'Slides', 'tag.pdf': 'PDF',
     'tag.conversion': 'Conversion', 'tag.annotation': 'Annotation', 'tag.presentation': 'Présentation',
+    // 404
+    'notfound.msg': 'Page introuvable.', 'notfound.cta': 'Voir les outils',
     // watermark
     'tools.wm.t': 'Filigrane', 'tools.wm.d': 'Appose un texte en filigrane sur chaque page (PDF ou images). Angle, opacité, répétition.',
     'wm.title': 'Filigrane', 'wm.sub': 'Ajoute un texte en filigrane sur chaque slide ou page PDF. 100% local.',
@@ -233,6 +235,8 @@ const DICT = {
     // tags
     'tag.image': 'Image', 'tag.slides': 'Slides', 'tag.pdf': 'PDF',
     'tag.conversion': 'Conversion', 'tag.annotation': 'Annotation', 'tag.presentation': 'Presentation',
+    // 404
+    'notfound.msg': 'Page not found.', 'notfound.cta': 'Browse tools',
     // watermark
     'tools.wm.t': 'Watermark', 'tools.wm.d': 'Stamp a text watermark on every page (PDF or images). Angle, opacity, tiling.',
     'wm.title': 'Watermark', 'wm.sub': 'Add a text watermark to every slide or PDF page. 100% local.',

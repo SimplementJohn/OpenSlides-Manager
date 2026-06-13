@@ -24,6 +24,7 @@ const Reformat   = lazy(() => import('./pages/Reformat.jsx'))
 const PptxToPdf  = lazy(() => import('./pages/PptxToPdf.jsx'))
 const PdfToPptx  = lazy(() => import('./pages/PdfToPptx.jsx'))
 const Present    = lazy(() => import('./pages/Present.jsx'))
+const NotFound   = lazy(() => import('./pages/NotFound.jsx'))
 
 function ScrollTop() {
   const { pathname } = useLocation()
@@ -68,6 +69,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/github" element={<GithubPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

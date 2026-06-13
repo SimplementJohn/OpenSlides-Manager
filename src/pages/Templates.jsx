@@ -20,22 +20,24 @@ export default function Templates() {
   const [activeTag, setActiveTag] = useState(null)
 
   const TOOLS = [
-    { to: '/bgremover',    icon: <Scissors size={26} />,    c1: '#6366f1', c2: '#8b5cf6', k: 'bg',       demo: 'ba',    tags: ['image'] },
-    { to: '/loadingslides',icon: <Film size={26} />,         c1: '#0ea5e9', c2: '#2563eb', k: 'slides',   demo: 'slides',tags: ['slides', 'image'] },
-    { to: '/arrange',      icon: <LayoutGrid size={26} />,  c1: '#f59e0b', c2: '#ec4899', k: 'arrange',  demo: 'arrange',tags: ['slides'] },
-    { to: '/pagination',   icon: <Hash size={26} />,         c1: '#8b5cf6', c2: '#ec4899', k: 'pag',      demo: 'pag',   tags: ['annotation', 'slides', 'pdf'] },
-    { to: '/watermark',    icon: <Droplets size={26} />,    c1: '#ef4444', c2: '#f97316', k: 'wm',        demo: 'wm',    tags: ['annotation', 'slides', 'pdf'] },
-    { to: '/reformat',     icon: <Maximize2 size={26} />,   c1: '#0ea5e9', c2: '#6366f1', k: 'rf',        demo: 'rf',    tags: ['image', 'slides'] },
-    { to: '/pptx2pdf',     icon: <FileOutput size={26} />,  c1: '#f97316', c2: '#ef4444', k: 'p2p',       demo: 'pdf',   tags: ['conversion', 'pdf'] },
-    { to: '/pdf2pptx',     icon: <Presentation size={26} />,c1: '#6366f1', c2: '#8b5cf6', k: 'pdf2pptx',  demo: 'pptx',  tags: ['conversion', 'pdf', 'presentation'] },
-    { to: '/present',      icon: <Monitor size={26} />,     c1: '#10b981', c2: '#0ea5e9', k: 'pres',      demo: 'pres',  tags: ['presentation', 'slides'] },
+    { to: '/bgremover',    icon: <Scissors size={26} />,    c1: '#6366f1', c2: '#8b5cf6', k: 'bg',       demo: 'ba',     tags: ['image'],                            alias: ['background removal', 'détourage', 'bgremover'] },
+    { to: '/loadingslides',icon: <Film size={26} />,         c1: '#0ea5e9', c2: '#2563eb', k: 'slides',   demo: 'slides', tags: ['slides', 'image'],                  alias: ['loading', 'chargement', 'barre'] },
+    { to: '/arrange',      icon: <LayoutGrid size={26} />,  c1: '#f59e0b', c2: '#ec4899', k: 'arrange',  demo: 'arrange',tags: ['slides'],                            alias: ['reorder', 'reordonne', 'drag', 'glisse'] },
+    { to: '/pagination',   icon: <Hash size={26} />,         c1: '#8b5cf6', c2: '#ec4899', k: 'pag',      demo: 'pag',    tags: ['annotation', 'slides', 'pdf'],      alias: ['pagination', 'page number', 'numéro'] },
+    { to: '/watermark',    icon: <Droplets size={26} />,    c1: '#ef4444', c2: '#f97316', k: 'wm',        demo: 'wm',     tags: ['annotation', 'slides', 'pdf'],      alias: ['watermark', 'filigrane', 'confidential'] },
+    { to: '/reformat',     icon: <Maximize2 size={26} />,   c1: '#0ea5e9', c2: '#6366f1', k: 'rf',        demo: 'rf',     tags: ['image', 'slides'],                  alias: ['reformat', 'resize', 'ratio', 'aspect', 'recadrage', '16:9', '4:3'] },
+    { to: '/pptx2pdf',     icon: <FileOutput size={26} />,  c1: '#f97316', c2: '#ef4444', k: 'p2p',       demo: 'pdf',    tags: ['conversion', 'pdf'],                alias: ['images to pdf', 'assemble', 'merge', 'assembler'] },
+    { to: '/pdf2pptx',     icon: <Presentation size={26} />,c1: '#6366f1', c2: '#8b5cf6', k: 'pdf2pptx',  demo: 'pptx',   tags: ['conversion', 'pdf', 'presentation'],alias: ['pdf to pptx', 'powerpoint', 'convert', 'convertir'] },
+    { to: '/present',      icon: <Monitor size={26} />,     c1: '#10b981', c2: '#0ea5e9', k: 'pres',      demo: 'pres',   tags: ['presentation', 'slides'],           alias: ['presenter', 'presentateur', 'present', 'fullscreen', 'timer', 'notes'] },
   ]
 
   const needle = q.trim().toLowerCase()
   const shown = TOOLS.filter((tl) => {
     const matchText = !needle ||
       t(`tools.${tl.k}.t`).toLowerCase().includes(needle) ||
-      t(`tools.${tl.k}.d`).toLowerCase().includes(needle)
+      t(`tools.${tl.k}.d`).toLowerCase().includes(needle) ||
+      tl.tags.some((tag) => tag.includes(needle)) ||
+      tl.alias?.some((a) => a.includes(needle))
     const matchTag = !activeTag || tl.tags.includes(activeTag)
     return matchText && matchTag
   })
